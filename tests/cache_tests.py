@@ -13,3 +13,7 @@ def test_cache_can_set_key(cache_data):
 def test_cache_can_get_key(cache_data):
     value = cache.get('test_cache_key')
     assert value == cache_data
+
+def test_cache_can_delete_key():
+    res = cache.delete('test_cache_key')
+    assert res == True

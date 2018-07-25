@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+  nginx:
+    build: ./config/nginx
+    container_name: molecular-nginx
+    depends_on:
+      - web
+    links:
+      - web:web
+    ports:
+      - 3000:3000
+    networks:
+      - molecular
+    restart: unless-stopped
+
+  web:
+    build: .
+    container_name: molecular-server
+    depends_on:
+      - redis
+    links:
+      - redis:redis
+    networks:
+      - molecular
+    restart: unless-stopped
+
+  redis:
+    image: redis
+    container_name: molecular-cache
+    command: redis-server --requirepass molecularredispassword --appendonly yes
+    ports:
+      - 6379:6379
+    networks:
+      - molecular
+    volumes:
+      - cache_data:/data
+    restart: unless-stopped
+
+networks:
+  molecular:
+    driver: bridge
+
+volumes:
+  cache_data:

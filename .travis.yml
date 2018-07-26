@@ -17,7 +17,7 @@ install:
   - pip install -q Django==$DJANGO_VERSION
   - pip install -q -r requirements.txt
 before_script:
-  - docker run --name molecular-cache -d redis redis-server --requirepass molecularredispassword --appendonly yes
+  - docker run --name molecular-cache -d -p 127.0.0.1:6379:6379 redis redis-server --requirepass molecularredispassword --appendonly yes
 script:
   - python manage.py makemigrations
   - python manage.py migrate

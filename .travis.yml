@@ -11,7 +11,7 @@ addons:
       - docker-ce
 env:
   global:
-    - DOCKER_COMPOSE_VERSION=1.18
+    - DOCKER_COMPOSE_VERSION=1.4.2
     - DJANGO_VERSION=2.0
     - TRAVIS=True
     - TEST_CMD=docker exec -it molecular-server test.sh
@@ -21,7 +21,7 @@ install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 before_script:
-  - docker-compose -f docker-compose.yml up -d
+  - docker-compose -f docker-compose.travis.yml up -d
 script:
 - ${TEST_CMD}
 notifications:

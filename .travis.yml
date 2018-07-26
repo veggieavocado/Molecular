@@ -5,6 +5,10 @@ python:
 dist: trusty
 services:
   - docker
+addons:
+  apt:
+    packages:
+      - docker-ce
 env:
   global:
     - DOCKER_COMPOSE_VERSION=1.4.2

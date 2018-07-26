@@ -11,19 +11,17 @@ addons:
       - docker-ce
 env:
   global:
-    - DOCKER_COMPOSE_VERSION=1.4.2
     - DJANGO_VERSION=2.0
     - TRAVIS=True
-    - TEST_CMD=docker exec -it molecular-server test.sh
 install:
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
+  - pip install -q Django==$DJANGO_VERSION
+  - pip install -q -r requirements.txt
 before_script:
-  - docker-compose -f docker-compose.travis.yml up -d
+  - docker run --name molecular-cache -d redis redis-server --requirepass molecularredispassword --appendonly yes
 script:
-- ${TEST_CMD}
+  - python manage.py makemigrations
+  - python manage.py migrate
+  - python -m pytest -n 3 --cov-config .coveragerc --cov=. -v
 notifications:
   email:
     - we.veggieavocado@gmail.com

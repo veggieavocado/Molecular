@@ -107,10 +107,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+if os.environ.get('TRAVIS', 'False') == 'True':
+    cache_location = 'redis://localhost:6379/'
+else:
+    cache_location = 'redis://redis:6379/'
+    
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://redis:6379/",
+        "LOCATION": cache_location,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             'PASSWORD': 'molecularredispassword'

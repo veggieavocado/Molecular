@@ -17,6 +17,8 @@ services:
   web:
     build: .
     container_name: molecular-server
+    environment:
+      - DOCKER_CONTAINER=True
     depends_on:
       - redis
     links:

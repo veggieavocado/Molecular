@@ -6,6 +6,7 @@ services:
   - docker
 env:
   global:
+  - COMPOSE_API_VERSION=1.18
   - DJANGO_VERSION=2.0
   - TRAVIS=True
   - TEST_CMD=docker exec -it molecular-server test.sh
@@ -13,7 +14,7 @@ install:
 - sudo apt-get update
 - sudo apt-get install docker.io
 - sudo rm /usr/local/bin/docker-compose
-- sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+- sudo curl -L https://github.com/docker/compose/releases/download/${COMPOSE_API_VERSION}/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 - sudo chmod +x /usr/local/bin/docker-compose
 before_script:
 - docker-compose up -d

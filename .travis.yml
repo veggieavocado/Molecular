@@ -1,31 +1,30 @@
 sudo: required
 language: python
 python:
-- '3.6'
+  - '3.6'
 dist: trusty
 services:
   - docker
 env:
   global:
-  - COMPOSE_API_VERSION=1.18
-  - DJANGO_VERSION=2.0
-  - TRAVIS=True
-  - TEST_CMD=docker exec -it molecular-server test.sh
+    - COMPOSE_API_VERSION=1.18
+    - DJANGO_VERSION=2.0
+    - TRAVIS=True
+    - TEST_CMD=docker exec -it molecular-server test.sh
 install:
-- sudo apt-get update
-- sudo apt-get install docker.io
-- sudo rm /usr/local/bin/docker-compose
-- curl -L https://github.com/docker/compose/releases/download/${COMPOSE_API_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-- chmod +x docker-compose
-- sudo mv docker-compose /usr/local/bin
-before_script:
-- docker-compose up -d
-- docker ps
+  - sudo apt-get update
+  - sudo apt-get install docker.io
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${COMPOSE_API_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker-compose -f docker-compose.yml up -d
+  - docker ps
 script:
 - ${TEST_CMD}
 notifications:
   email:
-  - we.veggieavocado@gmail.com
-  - ppark9553@gmail.com
+    - we.veggieavocado@gmail.com
+    - ppark9553@gmail.com
   on_success: always
   on_failure: always

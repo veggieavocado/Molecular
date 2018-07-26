@@ -1,7 +1,19 @@
+'''
+Molecular.
+
+ ʕ•ﻌ•ʔ     ʕ•ﻌ•ʔ
+( >  <) ♡ (>  < )
+ u   u     u   u
+
+feat. peepee
+with love...
+'''
 import pytest
 
 from django.core.cache import cache
 
+
+## Test 시작 ##
 @pytest.fixture
 def cache_data():
     return '장고 캐시 데이터'

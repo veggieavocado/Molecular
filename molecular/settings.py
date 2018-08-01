@@ -18,6 +18,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # celery + celerybeat
+    'django_celery_beat',
+    'django_celery_results',
+
+    # 몰레큘러 앱 정의내리는 곳
+    'algorithms',
 ]
 
 MIDDLEWARE = [
@@ -72,17 +79,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+LANGUAGE_CODE = 'ko-kr'
+TIME_ZONE = 'Asia/Seoul'
 USE_I18N = True
-
 USE_L10N = True
-
-USE_TZ = True
+USE_TZ = False
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 if TESTING == 'True' or DOCKER == 'False':
     cache_location = 'redis://localhost:6379/'
@@ -99,3 +103,18 @@ CACHES = {
         }
     }
 }
+
+amqp_user = 'molecularuser'
+amqp_pass = 'molecularrabbitmqpassword'
+if TESTING == 'True' or DOCKER == 'False':
+    amqp_location = 'localhost'
+else:
+    amqp_location = 'rabbit'
+amqp_url = 'amqp://{}:{}@{}:5672//'.format(amqp_user, amqp_pass, amqp_location)
+
+CELERY_BROKER_URL = amqp_url
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE

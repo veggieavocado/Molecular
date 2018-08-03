@@ -59,18 +59,17 @@ services:
     restart: unless-stopped
 
   flower:
-    image: totem/celery-flower-docker
+    build:
+      context: .
+      dockerfile: Flowerdocker
     container_name: molecular-flower
+    ports:
+      - 5555:5555
     environment:
-      - AMQP_USERNAME=molecularuser
-      - AMQP_PASSWORD=molecularrabbitmqpassword
-      - AMQP_PORT=5672
-      - FLOWER_BASIC_AUTH=root:molecularflowerpassword
+      - DOCKER_CONTAINER=True
     depends_on:
       - celery
       - celerybeat
-    ports:
-      - 5555:5555
     networks:
       - molecular
     restart: unless-stopped
@@ -88,7 +87,7 @@ services:
     restart: unless-stopped
 
   rabbit:
-    image: rabbitmq
+    image: rabbitmq:3-management
     container_name: molecular-rabbit
     environment:
       - RABBITMQ_DEFAULT_USER=molecularuser

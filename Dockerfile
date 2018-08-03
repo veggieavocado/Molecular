@@ -13,6 +13,7 @@ RUN pip3 install --upgrade pip && \
     pip3 install -r requirements.txt
 
 RUN python manage.py makemigrations && \
+    python manage.py migrate sessions && \
     python manage.py migrate && \
     python manage.py collectstatic --noinput
 

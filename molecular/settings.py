@@ -113,7 +113,7 @@ else:
 amqp_url = 'amqp://{}:{}@{}:5672//'.format(amqp_user, amqp_pass, amqp_location)
 
 CELERY_BROKER_URL = amqp_url
-CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_BACKEND = 'django-db' # https://github.com/celery/django-celery-results/issues/19
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'

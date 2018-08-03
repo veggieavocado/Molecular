@@ -15,6 +15,7 @@ RUN pip3 install --upgrade pip && \
 RUN python manage.py makemigrations && \
     python manage.py migrate sessions && \
     python manage.py migrate && \
+    python manage.py migrate django_celery_results && \
     python manage.py collectstatic --noinput
 
 EXPOSE 8000
